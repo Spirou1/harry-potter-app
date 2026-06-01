@@ -1,0 +1,38 @@
+package com.example.harrypotter
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
+
+class StudentAdapter(private var items: List<StudentDTO>) :
+    RecyclerView.Adapter<StudentAdapter.ViewHolder>() {
+
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val ivPhoto: ImageView = view.findViewById(R.id.iv_student_photo)
+        val tvName:  TextView  = view.findViewById(R.id.tv_student_name)
+        val tvHouse: TextView  = view.findViewById(R.id.tv_student_house)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_student, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val student = items[position]
+        holder.tvName.text  = student.name
+        holder.tvHouse.text = student.house
+        holder.ivPhoto.setImageResource(R.mipmap.ic_launcher)
+    }
+
+    override fun getItemCount() = items.size
+
+    fun updateData(newItems: List<StudentDTO>) {
+        items = newItems
+        notifyDataSetChanged()
+    }
+}
