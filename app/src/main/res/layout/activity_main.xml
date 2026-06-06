@@ -6,103 +6,114 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5"
-    android:padding="24dp"
+    android:background="@color/background"
     tools:context=".activity.MainActivity">
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Harry Potter"
-        android:textColor="#212121"
-        android:textSize="28sp"
+        android:layout_marginTop="64dp"
+        android:text="Harry Potter APP"
+        android:textColor="@color/primary"
+        android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/tv_subtitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:text="Escolha uma opção"
-        android:textColor="#757575"
-        android:textSize="14sp"
+    <View
+        android:id="@+id/divider_title"
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/accent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_title" />
 
-    <Button
-        android:id="@+id/btn_character"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:onClick="abrirPersonagem"
-        android:text="Personagem por ID"
-        app:layout_constraintBottom_toTopOf="@id/btn_staff"
+    <TextView
+        android:id="@+id/tv_subtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Painel de Opções"
+        android:textColor="@color/text_secondary"
+        android:textSize="16sp"
+        android:letterSpacing="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
-        app:layout_constraintVertical_bias="0.4"
-        app:layout_constraintVertical_chainStyle="packed" />
+        app:layout_constraintTop_toBottomOf="@id/divider_title" />
 
-    <Button
-        android:id="@+id/btn_staff"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="abrirProfessor"
-        android:text="Professor da Escola"
-        app:layout_constraintBottom_toTopOf="@id/btn_students"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_character" />
-
-    <Button
-        android:id="@+id/btn_students"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="abrirEstudantes"
-        android:text="Estudantes por Casa"
-        app:layout_constraintBottom_toTopOf="@id/btn_spells"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_staff" />
-
-    <Button
-        android:id="@+id/btn_spells"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="abrirFeiticos"
-        android:text="Ver Feitiços"
-        app:layout_constraintBottom_toTopOf="@id/btn_exit"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_students" />
-
-    <Button
-        android:id="@+id/btn_exit"
-        android:layout_width="0dp"
-        android:layout_height="52dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginTop="16dp"
-        android:onClick="sair"
-        android:text="Sair"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btn_spells" />
+        app:layout_constraintTop_toBottomOf="@id/tv_subtitle"
+        app:layout_constraintVertical_bias="0.45">
+
+        <Button
+            android:id="@+id/btn_character"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="16dp"
+            android:onClick="abrirPersonagem"
+            android:text="Listar Personagem por ID"
+            android:textSize="16sp"
+            app:icon="@android:drawable/ic_menu_search"
+            app:iconGravity="textStart" />
+
+        <Button
+            android:id="@+id/btn_staff"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="16dp"
+            android:onClick="abrirProfessor"
+            android:text="Listar Professor da Escola"
+            android:textSize="16sp"
+            app:icon="@android:drawable/ic_menu_myplaces"
+            app:iconGravity="textStart" />
+
+        <Button
+            android:id="@+id/btn_students"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="16dp"
+            android:onClick="abrirEstudantes"
+            android:text="Estudantes de uma Casa"
+            android:textSize="16sp"
+            app:icon="@android:drawable/ic_menu_agenda"
+            app:iconGravity="textStart" />
+
+        <Button
+            android:id="@+id/btn_spells"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:layout_marginBottom="24dp"
+            android:onClick="abrirFeiticos"
+            android:text="Ver Feitiços"
+            android:textSize="16sp"
+            app:icon="@android:drawable/ic_menu_view"
+            app:iconGravity="textStart" />
+
+        <Button
+            android:id="@+id/btn_exit"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:onClick="sair"
+            android:text="Sair do Aplicativo"
+            android:textColor="#E74C3C" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,10 +5,12 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import com.google.android.material.card.MaterialCardView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
+import com.google.android.material.textfield.TextInputEditText
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -23,9 +25,9 @@ import kotlinx.coroutines.withContext
 
 class CharacterActivity : AppCompatActivity() {
 
-    private lateinit var etId: EditText
+    private lateinit var etId: TextInputEditText
     private lateinit var progressBar: ProgressBar
-    private lateinit var layoutResult: LinearLayout
+    private lateinit var layoutResult: MaterialCardView
     private lateinit var ivPhoto: ImageView
     private lateinit var tvName: TextView
     private lateinit var tvSpecies: TextView
@@ -55,24 +57,23 @@ class CharacterActivity : AppCompatActivity() {
     }
 
     fun buscarPersonagem(view: View) {
-        var id = etId.text.toString().trim()
-        if (id.isEmpty()) return
+        val idDigitado = etId.text.toString().trim()
+        if (idDigitado.isEmpty()) return
 
         CoroutineScope(Dispatchers.Main).launch {
             progressBar.visibility = View.VISIBLE
             layoutResult.visibility = View.GONE
 
-            var id: String = etId.text.toString()
             try {
                 val response = withContext(Dispatchers.IO) {
-                    RetrofitClient.apiService.getCharacterById(id)
+                    RetrofitClient.apiService.getCharacterById(idDigitado)
                 }
                 val character = response.firstOrNull()
 
                 if (character != null) {
-                    tvName.text = "Nome: ${character?.name}"
-                    tvSpecies.text = "Espécie: ${character?.species}"
-                    tvHouse.text = "Casa: ${character?.house}"
+                    tvName.text = "Nome: ${character.name}"
+                    tvSpecies.text = "Espécie: ${character.species}"
+                    tvHouse.text = "Casa: ${character.house}"
 
                     if (character.image.isNotEmpty()) {
                         com.squareup.picasso.Picasso.get()
@@ -92,9 +93,9 @@ class CharacterActivity : AppCompatActivity() {
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@CharacterActivity, "Erro na busca", Toast.LENGTH_SHORT).show()
+            } finally {
+                progressBar.visibility = View.GONE
             }
-
-            progressBar.visibility = View.GONE
         }
     }
 }

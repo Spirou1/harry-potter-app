@@ -4,9 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.textfield.TextInputEditText
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -14,7 +17,6 @@ import androidx.core.view.WindowInsetsCompat
 import com.example.harrypotter.R
 import com.example.harrypotter.api.RetrofitClient
 import com.example.harrypotter.dto.StaffDTO
-import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -22,9 +24,9 @@ import kotlinx.coroutines.withContext
 
 class StaffActivity : AppCompatActivity() {
 
-    private lateinit var etName: EditText
+    private lateinit var etName: TextInputEditText
     private lateinit var progressBar: ProgressBar
-    private lateinit var layoutResult: LinearLayout
+    private lateinit var layoutResult: MaterialCardView
     private lateinit var tvName: TextView
     private lateinit var tvAlternate: TextView
     private lateinit var tvSpecies: TextView
