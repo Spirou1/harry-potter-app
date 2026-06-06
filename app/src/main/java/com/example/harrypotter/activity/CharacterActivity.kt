@@ -95,9 +95,6 @@ class CharacterActivity : AppCompatActivity() {
             }
 
             progressBar.visibility = View.GONE
-
-            ivPhoto.setImageResource(R.mipmap.ic_launcher)
-            layoutResult.visibility = View.VISIBLE
         }
     }
 }

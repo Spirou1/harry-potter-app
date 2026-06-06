@@ -28,7 +28,16 @@ class StudentAdapter(private var items: List<StudentDTO>) :
         val student = items[position]
         holder.tvName.text  = student.name
         holder.tvHouse.text = student.house
-        holder.ivPhoto.setImageResource(R.mipmap.ic_launcher)
+        
+        if (student.image.isNotEmpty()) {
+            com.squareup.picasso.Picasso.get()
+                .load(student.image)
+                .placeholder(R.mipmap.ic_launcher)
+                .error(R.mipmap.ic_launcher)
+                .into(holder.ivPhoto)
+        } else {
+            holder.ivPhoto.setImageResource(R.mipmap.ic_launcher)
+        }
     }
 
     override fun getItemCount() = items.size

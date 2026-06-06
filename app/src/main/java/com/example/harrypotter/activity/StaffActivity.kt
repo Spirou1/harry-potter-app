@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.harrypotter.R
+import com.example.harrypotter.api.RetrofitClient
 import com.example.harrypotter.dto.StaffDTO
+import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,39 +29,6 @@ class StaffActivity : AppCompatActivity() {
     private lateinit var tvAlternate: TextView
     private lateinit var tvSpecies: TextView
     private lateinit var tvHouse: TextView
-
-    private val mockStaff = listOf(
-        StaffDTO(
-            "Albus Dumbledore",
-            listOf("Professor Dumbledore", "Albus Percival Wulfric Brian Dumbledore"),
-            "human",
-            "Gryffindor"
-        ),
-        StaffDTO(
-            "Minerva McGonagall",
-            listOf("Professor McGonagall", "Minnie"),
-            "human",
-            "Gryffindor"
-        ),
-        StaffDTO(
-            "Severus Snape",
-            listOf("Professor Snape", "The Half-Blood Prince"),
-            "human",
-            "Slytherin"
-        ),
-        StaffDTO("Rubeus Hagrid", listOf("Hagrid"), "half-giant", "Gryffindor"),
-        StaffDTO("Filius Flitwick", listOf("Professor Flitwick"), "human", "Ravenclaw"),
-        StaffDTO("Pomona Sprout", listOf("Professor Sprout"), "human", "Hufflepuff"),
-        StaffDTO("Sybill Trelawney", listOf("Professor Trelawney"), "human", "Gryffindor"),
-        StaffDTO(
-            "Dolores Umbridge",
-            listOf("Professor Umbridge", "High Inquisitor"),
-            "human",
-            "Slytherin"
-        ),
-        StaffDTO("Horace Slughorn", listOf("Professor Slughorn"), "human", "Slytherin"),
-        StaffDTO("Remus Lupin", listOf("Professor Lupin", "Moony"), "werewolf", "Gryffindor"),
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,26 +54,34 @@ class StaffActivity : AppCompatActivity() {
     }
 
     fun buscarProfessor(view: View) {
-        val nome = etName.text.toString().trim()
-        if (nome.isEmpty()) return
+        val nomeDigitado = etName.text.toString().trim()
+        if (nomeDigitado.isEmpty()) return
 
         CoroutineScope(Dispatchers.Main).launch {
             progressBar.visibility = View.VISIBLE
             layoutResult.visibility = View.GONE
 
-            val staff = withContext(Dispatchers.IO) {
-                // TODO: HttpClient.getStaffByName(nome)
-                mockStaff.find { it.name.contains(nome, ignoreCase = true) }
-                    ?: mockStaff.first()
+            try {
+                val allStaff = withContext(Dispatchers.IO) {
+                    RetrofitClient.apiService.getStaff()
+                }
+
+                val staff = allStaff.find { it.name.contains(nomeDigitado, ignoreCase = true) }
+
+                if (staff != null) {
+                    tvName.text      = "Nome: ${staff.name}"
+                    tvAlternate.text = "Outros nomes: ${staff.alternateNames.joinToString(", ")}"
+                    tvSpecies.text   = "Espécie: ${staff.species}"
+                    tvHouse.text     = "Casa: ${staff.house}"
+                    layoutResult.visibility = View.VISIBLE
+                } else {
+                    Toast.makeText(this@StaffActivity, "Professor não encontrado", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@StaffActivity, "Erro ao consultar a API", Toast.LENGTH_SHORT).show()
+            } finally {
+                progressBar.visibility = View.GONE
             }
-
-            progressBar.visibility = View.GONE
-
-            tvName.text      = "Nome: ${staff.name}"
-            tvAlternate.text = "Outros nomes: ${staff.alternateNames.joinToString()}"
-            tvSpecies.text   = "Espécie: ${staff.species}"
-            tvHouse.text     = "Casa: ${staff.house}"
-            layoutResult.visibility = View.VISIBLE
         }
     }
 }

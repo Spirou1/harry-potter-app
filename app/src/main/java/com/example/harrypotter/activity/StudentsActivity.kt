@@ -14,7 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.harrypotter.R
 import com.example.harrypotter.adapter.StudentAdapter
+import com.example.harrypotter.api.RetrofitClient
 import com.example.harrypotter.dto.StudentDTO
+import android.widget.Toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,43 +28,6 @@ class StudentsActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: StudentAdapter
-
-    private val mockStudents = mapOf(
-        "gryffindor" to listOf(
-            StudentDTO("Harry Potter", "Gryffindor"),
-            StudentDTO("Hermione Granger", "Gryffindor"),
-            StudentDTO("Ron Weasley", "Gryffindor"),
-            StudentDTO("Neville Longbottom", "Gryffindor"),
-            StudentDTO("Ginny Weasley", "Gryffindor"),
-            StudentDTO("Seamus Finnigan", "Gryffindor"),
-            StudentDTO("Dean Thomas", "Gryffindor"),
-            StudentDTO("Parvati Patil", "Gryffindor"),
-        ),
-        "slytherin" to listOf(
-            StudentDTO("Draco Malfoy", "Slytherin"),
-            StudentDTO("Pansy Parkinson", "Slytherin"),
-            StudentDTO("Vincent Crabbe", "Slytherin"),
-            StudentDTO("Gregory Goyle", "Slytherin"),
-            StudentDTO("Blaise Zabini", "Slytherin"),
-            StudentDTO("Millicent Bulstrode", "Slytherin"),
-        ),
-        "hufflepuff" to listOf(
-            StudentDTO("Cedric Diggory", "Hufflepuff"),
-            StudentDTO("Nymphadora Tonks", "Hufflepuff"),
-            StudentDTO("Hannah Abbott", "Hufflepuff"),
-            StudentDTO("Ernie Macmillan", "Hufflepuff"),
-            StudentDTO("Justin Finch-Fletchley", "Hufflepuff"),
-            StudentDTO("Susan Bones", "Hufflepuff"),
-        ),
-        "ravenclaw" to listOf(
-            StudentDTO("Luna Lovegood", "Ravenclaw"),
-            StudentDTO("Cho Chang", "Ravenclaw"),
-            StudentDTO("Padma Patil", "Ravenclaw"),
-            StudentDTO("Terry Boot", "Ravenclaw"),
-            StudentDTO("Michael Corner", "Ravenclaw"),
-            StudentDTO("Anthony Goldstein", "Ravenclaw"),
-        ),
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -100,13 +65,21 @@ class StudentsActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             progressBar.visibility = View.VISIBLE
 
-            val students = withContext(Dispatchers.IO) {
-                // TODO: HttpClient.getStudentsByHouse(casa)
-                mockStudents[casa] ?: emptyList()
-            }
+            try {
+                val students = withContext(Dispatchers.IO) {
+                    RetrofitClient.apiService.getStudentsByHouse(casa)
+                }
 
-            progressBar.visibility = View.GONE
-            adapter.updateData(students)
+                if (students.isNotEmpty()) {
+                    adapter.updateData(students)
+                } else {
+                    Toast.makeText(this@StudentsActivity, "Nenhum estudante encontrado", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@StudentsActivity, "Erro ao carregar estudantes", Toast.LENGTH_SHORT).show()
+            } finally {
+                progressBar.visibility = View.GONE
+            }
         }
     }
 }
