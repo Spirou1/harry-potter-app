@@ -1,7 +1,8 @@
-package com.example.harrypotter
+package com.example.harrypotter.activity
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -10,6 +11,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.harrypotter.R
+import com.example.harrypotter.dto.StaffDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -26,16 +29,36 @@ class StaffActivity : AppCompatActivity() {
     private lateinit var tvHouse: TextView
 
     private val mockStaff = listOf(
-        StaffDTO("Albus Dumbledore",       listOf("Professor Dumbledore", "Albus Percival Wulfric Brian Dumbledore"), "human", "Gryffindor"),
-        StaffDTO("Minerva McGonagall",     listOf("Professor McGonagall", "Minnie"),                                   "human", "Gryffindor"),
-        StaffDTO("Severus Snape",          listOf("Professor Snape", "The Half-Blood Prince"),                        "human", "Slytherin"),
-        StaffDTO("Rubeus Hagrid",          listOf("Hagrid"),                                                           "half-giant", "Gryffindor"),
-        StaffDTO("Filius Flitwick",        listOf("Professor Flitwick"),                                               "human", "Ravenclaw"),
-        StaffDTO("Pomona Sprout",          listOf("Professor Sprout"),                                                 "human", "Hufflepuff"),
-        StaffDTO("Sybill Trelawney",       listOf("Professor Trelawney"),                                              "human", "Gryffindor"),
-        StaffDTO("Dolores Umbridge",       listOf("Professor Umbridge", "High Inquisitor"),                           "human", "Slytherin"),
-        StaffDTO("Horace Slughorn",        listOf("Professor Slughorn"),                                               "human", "Slytherin"),
-        StaffDTO("Remus Lupin",            listOf("Professor Lupin", "Moony"),                                         "werewolf", "Gryffindor"),
+        StaffDTO(
+            "Albus Dumbledore",
+            listOf("Professor Dumbledore", "Albus Percival Wulfric Brian Dumbledore"),
+            "human",
+            "Gryffindor"
+        ),
+        StaffDTO(
+            "Minerva McGonagall",
+            listOf("Professor McGonagall", "Minnie"),
+            "human",
+            "Gryffindor"
+        ),
+        StaffDTO(
+            "Severus Snape",
+            listOf("Professor Snape", "The Half-Blood Prince"),
+            "human",
+            "Slytherin"
+        ),
+        StaffDTO("Rubeus Hagrid", listOf("Hagrid"), "half-giant", "Gryffindor"),
+        StaffDTO("Filius Flitwick", listOf("Professor Flitwick"), "human", "Ravenclaw"),
+        StaffDTO("Pomona Sprout", listOf("Professor Sprout"), "human", "Hufflepuff"),
+        StaffDTO("Sybill Trelawney", listOf("Professor Trelawney"), "human", "Gryffindor"),
+        StaffDTO(
+            "Dolores Umbridge",
+            listOf("Professor Umbridge", "High Inquisitor"),
+            "human",
+            "Slytherin"
+        ),
+        StaffDTO("Horace Slughorn", listOf("Professor Slughorn"), "human", "Slytherin"),
+        StaffDTO("Remus Lupin", listOf("Professor Lupin", "Moony"), "werewolf", "Gryffindor"),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +78,10 @@ class StaffActivity : AppCompatActivity() {
         tvAlternate  = findViewById(R.id.tv_staff_alternate)
         tvSpecies    = findViewById(R.id.tv_staff_species)
         tvHouse      = findViewById(R.id.tv_staff_house)
+
+        findViewById<Button>(R.id.button_voltar2).setOnClickListener {
+            finish()
+        }
     }
 
     fun buscarProfessor(view: View) {

@@ -15,7 +15,7 @@
         android:theme="@style/Theme.HarryPotter">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,11 +23,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".CharacterActivity"   android:exported="false" />
-        <activity android:name=".StaffActivity"       android:exported="false" />
-        <activity android:name=".StudentsActivity"    android:exported="false" />
-        <activity android:name=".SpellsActivity"      android:exported="false" />
-        <activity android:name=".SpellDetailActivity" android:exported="false" />
+        <activity android:name=".activity.CharacterActivity"   android:exported="false" />
+        <activity android:name=".activity.StaffActivity"       android:exported="false" />
+        <activity android:name=".activity.StudentsActivity"    android:exported="false" />
+        <activity android:name=".activity.SpellsActivity"      android:exported="false" />
+        <activity android:name=".activity.SpellDetailActivity" android:exported="false" />
 
     </application>
 
