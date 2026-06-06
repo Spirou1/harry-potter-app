@@ -8,11 +8,13 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.harrypotter.R
+import com.example.harrypotter.api.RetrofitClient
 import com.example.harrypotter.dto.CharacterDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -28,19 +30,6 @@ class CharacterActivity : AppCompatActivity() {
     private lateinit var tvName: TextView
     private lateinit var tvSpecies: TextView
     private lateinit var tvHouse: TextView
-
-    private val mockCharacters = listOf(
-        CharacterDTO("1", "Harry Potter", "human", "Gryffindor"),
-        CharacterDTO("2", "Hermione Granger", "human", "Gryffindor"),
-        CharacterDTO("3", "Ron Weasley", "human", "Gryffindor"),
-        CharacterDTO("4", "Albus Dumbledore", "human", "Gryffindor"),
-        CharacterDTO("5", "Draco Malfoy", "human", "Slytherin"),
-        CharacterDTO("6", "Luna Lovegood", "human", "Ravenclaw"),
-        CharacterDTO("7", "Cedric Diggory", "human", "Hufflepuff"),
-        CharacterDTO("8", "Lord Voldemort", "human", "Slytherin"),
-        CharacterDTO("9", "Neville Longbottom", "human", "Gryffindor"),
-        CharacterDTO("10", "Ginny Weasley", "human", "Gryffindor"),
-    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,23 +55,47 @@ class CharacterActivity : AppCompatActivity() {
     }
 
     fun buscarPersonagem(view: View) {
-        val id = etId.text.toString().trim()
+        var id = etId.text.toString().trim()
         if (id.isEmpty()) return
 
         CoroutineScope(Dispatchers.Main).launch {
             progressBar.visibility = View.VISIBLE
             layoutResult.visibility = View.GONE
 
-            val character = withContext(Dispatchers.IO) {
-                // TODO: HttpClient.getCharacterById(id)
-                mockCharacters.find { it.id == id } ?: mockCharacters.first()
+            var id: String = etId.text.toString()
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    RetrofitClient.apiService.getCharacterById(id)
+                }
+                val character = response.firstOrNull()
+
+                if (character != null) {
+                    tvName.text = "Nome: ${character?.name}"
+                    tvSpecies.text = "Espécie: ${character?.species}"
+                    tvHouse.text = "Casa: ${character?.house}"
+
+                    if (character.image.isNotEmpty()) {
+                        com.squareup.picasso.Picasso.get()
+                            .load(character.image)
+                            .placeholder(R.mipmap.ic_launcher)
+                            .into(ivPhoto)
+                    } else {
+                        ivPhoto.setImageResource(R.mipmap.ic_launcher)
+                    }
+                    layoutResult.visibility = View.VISIBLE
+                } else {
+                    Toast.makeText(
+                        this@CharacterActivity,
+                        "Personagem não encontrado",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Toast.makeText(this@CharacterActivity, "Erro na busca", Toast.LENGTH_SHORT).show()
             }
 
             progressBar.visibility = View.GONE
 
-            tvName.text    = "Nome: ${character.name}"
-            tvSpecies.text = "Espécie: ${character.species}"
-            tvHouse.text   = "Casa: ${character.house}"
             ivPhoto.setImageResource(R.mipmap.ic_launcher)
             layoutResult.visibility = View.VISIBLE
         }
