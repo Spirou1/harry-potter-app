@@ -1,4 +1,4 @@
-package com.example.harrypotter
+package com.example.harrypotter.activity
 
 import android.os.Bundle
 import android.widget.TextView
@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.harrypotter.R
 
 class SpellDetailActivity : AppCompatActivity() {
 
@@ -24,5 +25,9 @@ class SpellDetailActivity : AppCompatActivity() {
 
         findViewById<TextView>(R.id.tv_spell_name).text        = name
         findViewById<TextView>(R.id.tv_spell_description).text = desc
+
+        findViewById<android.view.View>(R.id.btn_voltar).setOnClickListener {
+            finish()
+        }
     }
 }

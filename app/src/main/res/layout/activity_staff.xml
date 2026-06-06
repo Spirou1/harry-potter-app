@@ -8,7 +8,18 @@
     android:layout_height="match_parent"
     android:background="#F5F5F5"
     android:padding="24dp"
-    tools:context=".StaffActivity">
+    tools:context=".activity.StaffActivity">
+
+    <Button
+        android:id="@+id/button_voltar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="308dp"
+        android:text="Voltar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress_bar" />
 
     <TextView
         android:id="@+id/tv_title"

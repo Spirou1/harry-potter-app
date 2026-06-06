@@ -1,4 +1,4 @@
-package com.example.harrypotter
+package com.example.harrypotter.dto
 
 data class StudentDTO(
     val name: String = "",

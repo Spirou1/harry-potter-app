@@ -1,7 +1,8 @@
-package com.example.harrypotter
+package com.example.harrypotter.activity
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -11,6 +12,8 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.example.harrypotter.R
+import com.example.harrypotter.dto.CharacterDTO
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,16 +30,16 @@ class CharacterActivity : AppCompatActivity() {
     private lateinit var tvHouse: TextView
 
     private val mockCharacters = listOf(
-        CharacterDTO("1", "Harry Potter",       "human", "Gryffindor"),
-        CharacterDTO("2", "Hermione Granger",    "human", "Gryffindor"),
-        CharacterDTO("3", "Ron Weasley",         "human", "Gryffindor"),
-        CharacterDTO("4", "Albus Dumbledore",    "human", "Gryffindor"),
-        CharacterDTO("5", "Draco Malfoy",        "human", "Slytherin"),
-        CharacterDTO("6", "Luna Lovegood",       "human", "Ravenclaw"),
-        CharacterDTO("7", "Cedric Diggory",      "human", "Hufflepuff"),
-        CharacterDTO("8", "Lord Voldemort",      "human", "Slytherin"),
-        CharacterDTO("9", "Neville Longbottom",  "human", "Gryffindor"),
-        CharacterDTO("10","Ginny Weasley",       "human", "Gryffindor"),
+        CharacterDTO("1", "Harry Potter", "human", "Gryffindor"),
+        CharacterDTO("2", "Hermione Granger", "human", "Gryffindor"),
+        CharacterDTO("3", "Ron Weasley", "human", "Gryffindor"),
+        CharacterDTO("4", "Albus Dumbledore", "human", "Gryffindor"),
+        CharacterDTO("5", "Draco Malfoy", "human", "Slytherin"),
+        CharacterDTO("6", "Luna Lovegood", "human", "Ravenclaw"),
+        CharacterDTO("7", "Cedric Diggory", "human", "Hufflepuff"),
+        CharacterDTO("8", "Lord Voldemort", "human", "Slytherin"),
+        CharacterDTO("9", "Neville Longbottom", "human", "Gryffindor"),
+        CharacterDTO("10", "Ginny Weasley", "human", "Gryffindor"),
     )
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,6 +59,10 @@ class CharacterActivity : AppCompatActivity() {
         tvName       = findViewById(R.id.tv_character_name)
         tvSpecies    = findViewById(R.id.tv_character_species)
         tvHouse      = findViewById(R.id.tv_character_house)
+
+        findViewById<Button>(R.id.button_voltar).setOnClickListener {
+            finish()
+        }
     }
 
     fun buscarPersonagem(view: View) {
