@@ -20,11 +20,17 @@ class SpellDetailActivity : AppCompatActivity() {
             insets
         }
 
-        val name = intent.getStringExtra("SPELL_NAME") ?: ""
-        val desc = intent.getStringExtra("SPELL_DESC") ?: ""
+        val name = intent.getStringExtra("SPELL_NAME")
+        val desc = intent.getStringExtra("SPELL_DESC")
+
+        if (name.isNullOrEmpty()) {
+            android.widget.Toast.makeText(this, "Dados do feitiço não encontrados", android.widget.Toast.LENGTH_SHORT).show()
+            finish()
+            return
+        }
 
         findViewById<TextView>(R.id.tv_spell_name).text        = name
-        findViewById<TextView>(R.id.tv_spell_description).text = desc
+        findViewById<TextView>(R.id.tv_spell_description).text = desc ?: ""
 
         findViewById<android.view.View>(R.id.btn_voltar).setOnClickListener {
             finish()

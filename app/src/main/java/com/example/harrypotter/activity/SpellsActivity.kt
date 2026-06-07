@@ -61,14 +61,14 @@ class SpellsActivity : AppCompatActivity() {
     private fun carregarFeiticos() {
         CoroutineScope(Dispatchers.Main).launch {
             progressBar.visibility = View.VISIBLE
-
-            val spells = withContext(Dispatchers.IO) {
-                RetrofitClient.apiService.getSpells()
+            try {
+                val spells = withContext(Dispatchers.IO) { RetrofitClient.apiService.getSpells() }
+                adapter.updateData(spells)
+            } catch (e: Exception) {
+                android.widget.Toast.makeText(this@SpellsActivity, "Erro ao carregar feitiços", android.widget.Toast.LENGTH_SHORT).show()
+            } finally {
+                progressBar.visibility = View.GONE
             }
-            adapter.updateData(spells)
-
-            progressBar.visibility = View.GONE
-            adapter.updateData(spells)
         }
     }
 }

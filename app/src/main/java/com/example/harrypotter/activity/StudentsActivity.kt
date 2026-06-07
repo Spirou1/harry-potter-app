@@ -59,7 +59,10 @@ class StudentsActivity : AppCompatActivity() {
             R.id.rb_slytherin  -> "slytherin"
             R.id.rb_hufflepuff -> "hufflepuff"
             R.id.rb_ravenclaw  -> "ravenclaw"
-            else               -> return
+            else               -> {
+                Toast.makeText(this, "Por favor, selecione uma casa", Toast.LENGTH_SHORT).show()
+                return
+            }
         }
 
         CoroutineScope(Dispatchers.Main).launch {

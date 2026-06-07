@@ -58,7 +58,10 @@ class CharacterActivity : AppCompatActivity() {
 
     fun buscarPersonagem(view: View) {
         val idDigitado = etId.text.toString().trim()
-        if (idDigitado.isEmpty()) return
+        if (idDigitado.isEmpty()) {
+            Toast.makeText(this, "Por favor, digite um ID para buscar", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         CoroutineScope(Dispatchers.Main).launch {
             progressBar.visibility = View.VISIBLE

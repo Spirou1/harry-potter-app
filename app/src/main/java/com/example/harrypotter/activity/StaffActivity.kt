@@ -57,7 +57,10 @@ class StaffActivity : AppCompatActivity() {
 
     fun buscarProfessor(view: View) {
         val nomeDigitado = etName.text.toString().trim()
-        if (nomeDigitado.isEmpty()) return
+        if (nomeDigitado.isEmpty()) {
+            Toast.makeText(this, "Por favor, digite o nome do professor", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         CoroutineScope(Dispatchers.Main).launch {
             progressBar.visibility = View.VISIBLE
